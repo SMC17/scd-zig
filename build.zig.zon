@@ -1,0 +1,16 @@
+.{
+    .name = .scd,
+    .version = "0.0.1",
+    .fingerprint = 0xadf9923e91d42fac,
+    .minimum_zig_version = "0.16.0",
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "tests",
+        "examples",
+        "LICENSE",
+        "README.md",
+        "CHANGELOG.md",
+    },
+}
