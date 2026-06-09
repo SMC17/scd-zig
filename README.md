@@ -128,3 +128,7 @@ Frontier port by Sean Collins (`sean@sunlitmoon.online`).
 ## License
 
 AGPL-3.0-or-later. See `LICENSE`.
+
+
+---
+*Audit Status (2026-06-09): Un-quarantined. Vanity tags stripped. Claims rectified to Research Substrate level.*
