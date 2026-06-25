@@ -3,13 +3,6 @@
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/License-AGPL--3.0--or--later-blue.svg)](LICENSE)
 [![Zig](https://img.shields.io/badge/Zig-0.16-orange.svg)](https://ziglang.org/)
 
-This library ports [Zach Wilson](https://www.linkedin.com/in/eczachly)'s
-**backfill/incremental duality** pattern for Slowly Changing Dimension
-Type 2 tables (taught at [DataExpert.io](https://www.dataexpert.io) in
-his dimensional-data-modeling bootcamp) to Zig. The original 110-line
-SQL pattern across two queries becomes one Zig module with two functions
-whose round-trip equivalence is enforced by a test, not by convention.
-
 ## The pattern, in one paragraph
 
 Every SCD Type 2 table needs *both* a backfill query that builds the
