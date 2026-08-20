@@ -17,10 +17,7 @@ fails the test suite.
 
 ## Status
 
-**v0.0.1 — 7/7 tests pass on Zig 0.16.** Concrete NBA-players worked
-example end-to-end with the duality property test green. v0.0.2
-generalises to `Dim(T)` over an arbitrary record schema. v0.0.3 emits
-Postgres + ClickHouse SQL from the same Zig declaration.
+**Measured 2026-08-20:** `zig build test --summary all` on Zig 0.16.0 at `f989ab9` → **11/11 tests passed**. README previously advertised 7/7; live suite includes `src/dim.zig` generic `Dim(T)` tests. Stay private; OSS data-systems primitive, not a company.
 
 ## What ships
 
@@ -38,7 +35,7 @@ Postgres + ClickHouse SQL from the same Zig declaration.
   overwrite if the prior SCD has rows from the future.
 - `fixture_seasons` — the canonical NBA-players test corpus.
 
-## Tests (7/7)
+## Tests (11/11 live; 7 named below plus `Dim(T)` in `src/dim.zig`)
 
 - `ScoringClass.fromPoints` matches the bootcamp's thresholds at every
   boundary.
@@ -56,15 +53,15 @@ Postgres + ClickHouse SQL from the same Zig declaration.
 ## Build
 
 ```sh
-zig build test                  # 7 unit tests + duality property
+zig build test --summary all    # 11/11 on Zig 0.16.0 (2026-08-20)
 ```
 
 Requires Zig 0.16. No system dependencies.
 
 ## What ships does NOT do yet
 
-- **No `Dim(T)` generic.** v0.0.1 is the concrete NBA-players worked
-  example end-to-end. v0.0.2 promotes to comptime-generic.
+- **`Dim(T)` is in-tree** (`src/dim.zig`, covered by the 11/11 live suite).
+  SQL emission is still unbuilt.
 - **No SQL emission.** v0.0.3 ships `Dim(T).emitBackfillSQL(.postgres)`
   and `.emitIncrementalSQL(.postgres)` from the same Zig declaration.
 - **No streaming / late-arriving-fact** handling. v0.0.4.
