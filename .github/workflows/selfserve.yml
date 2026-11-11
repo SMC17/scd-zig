@@ -1,0 +1,64 @@
+name: Self-serve acceptance and preview
+on:
+  pull_request:
+    paths: ['src/**', 'examples/**', 'build.zig*', 'selfserve.json', 'tools/selfserve.py', '.github/workflows/selfserve.yml']
+  push:
+    branches: [main]
+    tags: ['selfserve-*']
+  workflow_dispatch:
+  schedule:
+    - cron: '17 8 1 * *'
+permissions:
+  contents: read
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: '0.16.0'
+      - name: Verify a clean committed source archive and package it
+        run: python3 tools/selfserve.py selfserve.json --repo . --out "$RUNNER_TEMP/selfserve"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: selfserve-${{ runner.os }}-${{ runner.arch }}
+          path: ${{ runner.temp }}/selfserve/
+          if-no-files-found: error
+  preview:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/selfserve-')
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: selfserve-*
+          path: packs
+      - name: Bundle the verified platform packs
+        run: |
+          mkdir release-assets
+          for pack in packs/selfserve-*; do
+            tar -czf "release-assets/$(basename "$pack").tar.gz" -C "$pack" .
+          done
+          cd release-assets
+          sha256sum *.tar.gz > SHA256SUMS
+      - name: Publish a dated preview from the verified tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --verify-tag --prerelease \
+            --title "$GITHUB_REF_NAME" \
+            --notes "Both native acceptance jobs passed. Each pack contains committed source, a runnable fixture, recorded checks and SHA-256 digests. Read TRY.md and result.json for scope. No performance or production-use claim is implied." \
+            release-assets/*

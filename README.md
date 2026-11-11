@@ -1,5 +1,7 @@
 # scd-zig
 
+Try the [self-contained task](docs/SELF_SERVE.md): `zig build demo`.
+
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/License-AGPL--3.0--or--later-blue.svg)](LICENSE)
 [![Zig](https://img.shields.io/badge/Zig-0.16-orange.svg)](https://ziglang.org/)
 
