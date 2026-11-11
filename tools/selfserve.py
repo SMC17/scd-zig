@@ -67,7 +67,7 @@ def verify(recipe, repo, destination):
     archive.write_bytes(gzip.compress(source, mtime=0))
     try:
         with tempfile.TemporaryDirectory(prefix="flight-source-") as workspace:
-            root = Path(workspace)
+            root = Path(workspace).resolve()
             with tarfile.open(fileobj=io.BytesIO(source)) as bundle:
                 # Python 3.12+: reject absolute paths, traversal and unsafe links.
                 bundle.extractall(root, filter="data")
