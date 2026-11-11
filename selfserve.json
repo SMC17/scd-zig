@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "project": "scd-zig",
+  "visibility": "private",
+  "systems": [
+    "Darwin",
+    "Linux"
+  ],
+  "required_files": [
+    "README.md",
+    "LICENSE"
+  ],
+  "task": "Replay a two-season dimension history and require incremental output to equal full backfill.",
+  "steps": [
+    {
+      "name": "unit tests",
+      "argv": [
+        "zig",
+        "build",
+        "test",
+        "-Doptimize=ReleaseSafe",
+        "--summary",
+        "all"
+      ],
+      "minimum_tests": 11
+    },
+    {
+      "name": "synthetic task",
+      "argv": [
+        "zig",
+        "build",
+        "demo",
+        "-Doptimize=ReleaseSafe"
+      ],
+      "contains": "backfill_equals_incremental=true"
+    }
+  ],
+  "bundle_paths": [
+    "zig-out/bin/demo"
+  ],
+  "limitations": [
+    "Synthetic fixtures and finite tests; no production or performance claim.",
+    "Package and repository remain private until an explicit public-release decision.",
+    "Hosted automation is configured, not proven while the account billing restriction prevents Actions from starting."
+  ]
+}
