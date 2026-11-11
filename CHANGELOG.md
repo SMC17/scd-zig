@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-11 self-serve task
+
+- Add a runnable synthetic task, clean-source packager and gated preview workflow.
+
 ## 0.0.1 — 2026-05-28
 
 Initial substrate. 7/7 tests pass on Zig 0.16. Ports Zach Wilson's
