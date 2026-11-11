@@ -26,6 +26,11 @@ jobs:
       - uses: mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29 # v2.2.1
         with:
           version: '0.16.0'
+      - name: Check the repository visibility against the reviewed recipe
+        env:
+          REPO_VISIBILITY: ${{ github.event.repository.private && 'private' || 'public' }}
+        run: |
+          python3 -c 'import json,os; actual=os.environ["REPO_VISIBILITY"]; expected=json.load(open("selfserve.json"))["visibility"]; assert actual == expected, "Review selfserve.json before changing release visibility"'
       - name: Verify a clean committed source archive and package it
         run: python3 tools/selfserve.py selfserve.json --repo . --out "$RUNNER_TEMP/selfserve"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
