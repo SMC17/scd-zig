@@ -1,5 +1,7 @@
 # scd-zig
 
+**[Status](STATUS.md) · [Roadmap](ROADMAP.md) · [Contributing](CONTRIBUTING.md) · [Issues](https://github.com/SMC17/scd-zig/issues) · [Public roadmap](https://github.com/users/SMC17/projects/16)**
+
 Try the [self-contained task](docs/SELF_SERVE.md): `zig build demo`.
 
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/License-AGPL--3.0--or--later-blue.svg)](LICENSE)
